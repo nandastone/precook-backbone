@@ -35,7 +35,7 @@ preload.json
 }
 ```
 
-app.js
+app.coffee
 
 ```coffeescript
 AssetLoader.on 'preloader:configLoaded', ->
