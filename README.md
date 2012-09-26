@@ -16,7 +16,7 @@ _precook was written in half a day to solve a specific problem. As such, it does
 ## Usage
 preload.json
 
-```javascript
+```coffeescript
 {
     "BASE_URL": "/bundles/hollerapp/assets/",
     
@@ -37,7 +37,7 @@ preload.json
 
 app.js
 
-```javascript
+```coffeescript
 AssetLoader.on 'preloader:configLoaded', ->
     AssetLoader.load 'SplashScreen'
 
