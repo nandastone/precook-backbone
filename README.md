@@ -4,9 +4,7 @@ precook is a CoffeeScript preloader implementation. It currently preloads images
 _precook was written in half a day to solve a specific problem. As such, it doesn't currently offer a great deal of flexibility. Feel free to fork or suggest improvements._
 
 ## Requirements
-Backbone.js
-
-precook has a hard dependency on [Backbone.js](/documentcloud/backbone) as it mixes Backbone.Events into its objects. This could be removed by adding a simple Pubsub implementation.
+**Backbone.js** - precook has a hard dependency on [Backbone.js](/documentcloud/backbone) as it mixes Backbone.Events into its objects. This could be removed by adding a simple Pubsub implementation.
 
 ## Getting started
 1. Define the assets to be configured. Assets are grouped for phased preloading.
@@ -16,6 +14,7 @@ precook has a hard dependency on [Backbone.js](/documentcloud/backbone) as it mi
 
 ## Usage
 preload.json
+
 ```{
     "BASE_URL": "/bundles/hollerapp/assets/",
     
@@ -34,6 +33,7 @@ preload.json
 }```
 
 app.js
+
 ```AssetLoader.on 'preloader:configLoaded', ->
     AssetLoader.load 'SplashScreen'
 
