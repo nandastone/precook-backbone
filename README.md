@@ -6,7 +6,7 @@ _precook was written in half a day to solve a specific problem. As such, it does
 ## Requirements
 * **jQuery**
 * **Backbone.js** - precook has a hard dependency on [Backbone.js](/documentcloud/backbone) as it mixes Backbone.Events into its objects. This could be removed by adding a simple Pubsub implementation.
-* ** Modernizer** - used by the HTML5 video module to detect the appropriate video file to preload. If you're not loading video, this can be removed.
+* **Modernizer** - used by the HTML5 video module to detect the appropriate video file to preload. If you're not loading video, this can be removed.
 
 ## Getting started
 1. Define the assets to be configured. Assets are grouped for phased preloading.

@@ -36,4 +36,4 @@ class AssetVideoLoader
         $(@video).unbind()
         @.trigger 'asset:completed'
 
-root.AssetVideoLoader = AssetVideoLoader
+root.PrecookVideo = AssetVideoLoader

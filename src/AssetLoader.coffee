@@ -6,8 +6,8 @@ AssetLoader =
 
     # Define our loader types. New loaders can be added here.
     _loaders:
-        image: -> new AssetImageLoader()
-        video: -> new AssetVideoLoader()
+        image: -> new PrecookImage()
+        video: -> new PrecookVideo()
 
     # Used to match asset file extensions to a loader type.
     _types:
@@ -131,4 +131,4 @@ AssetLoader =
 # mixin eventing methods (on, off, trigger)
 _.extend AssetLoader, Backbone.Events
 
-root.AssetLoader = AssetLoader
+root.Precook = AssetLoader

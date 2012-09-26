@@ -24,4 +24,4 @@ class AssetImageLoader
         @.trigger 'asset:completed'
 
 
-root.AssetImageLoader = AssetImageLoader
+root.PrecookImage = AssetImageLoader

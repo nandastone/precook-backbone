@@ -6,10 +6,19 @@ module.exports = function(grunt) {
         //  project metadata, used by the <banner> directive.
         meta: {},
 
+        // compile and concat coffee
+        coffee: {
+            compile: {
+                files: {
+                    'dist/precook.js': ['src/*.coffee']
+                }
+            }
+        },
+
         // list of files to be minified with UglifyJS.
         min: {
             dist: {
-                src: ['src/*.coffee'],
+                src: ['dist/precook.js'],
                 dest: 'dist/precook.min.js'
             }
         },
@@ -22,5 +31,7 @@ module.exports = function(grunt) {
         }
 
     });
+
+    grunt.loadNpmTasks('grunt-contrib-coffee');
 
 };
