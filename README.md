@@ -9,13 +9,15 @@ _precook was written in half a day to solve a specific problem. As such, it does
 ## Getting started
 1. Define the assets to be configured. Assets are grouped for phased preloading.
 2. Define the event listeners (config loaded, preloader complete)
-3. Start preloading an asset group
-4. Do something when preloading is finished (blocking preloading), or simply do nothing (non-blocking background preloading)
+3. Load the configuration into the preloader
+4. Once configuration is loaded, start preloading an asset group
+5. Do something when preloading is finished (blocking preloading), or simply do nothing (non-blocking background preloading)
 
 ## Usage
 preload.json
 
-```{
+```javascript
+{
     "BASE_URL": "/bundles/hollerapp/assets/",
     
     "GROUPS": {
@@ -34,7 +36,8 @@ preload.json
 
 app.js
 
-```AssetLoader.on 'preloader:configLoaded', ->
+```javascript
+AssetLoader.on 'preloader:configLoaded', ->
     AssetLoader.load 'SplashScreen'
 
 AssetLoader.on 'preloader:completed', (group) =>
