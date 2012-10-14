@@ -1,0 +1,16 @@
+{
+  "BASE_URL": "img/",
+  
+  "GROUPS": {
+    "SplashScreen": [
+      "200.jpg",
+      "210.jpg",
+      "220.jpg",
+      "240.jpg"
+    ],
+    
+    "OtherScreens": [
+      "200_2.jpg"
+    ]
+  }
+}
