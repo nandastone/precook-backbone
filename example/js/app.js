@@ -2,15 +2,17 @@ $(function() {
 
     // listen for the configuration to be loaded - will be instant for passed through config object
     Precook.on('preloader:configLoaded', function() {
-         preloader.load('SplashScreen');
+        Precook.load('SplashScreen');
     });
     
-    preloader.on('preloader:completed', function(group) {
-        // do something bacsed on the group being completed
+    Precook.on('preloader:completed', function(group) {
+        // do something based on the group being completed
         console.log('Completed preloading:', group);
+
+        $('#done').show();
     });
 
     // initialise preloader and load the config from a file
-    preloader.setConfig('preload.json');
+    Precook.setConfig('preload.json');
 
 });

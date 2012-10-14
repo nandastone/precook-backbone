@@ -21,7 +21,14 @@
       $(this.image).bind('load error', function(event) {
         return _this.complete();
       });
-      return this.image.src = this._sourceFile;
+      this.image.src = this._sourceFile;
+      return this._checkCached();
+    };
+
+    AssetImageLoader.prototype._checkCached = function() {
+      if (this.image.complete || this.image.complete === void 0) {
+        return this.complete();
+      }
     };
 
     AssetImageLoader.prototype.complete = function() {

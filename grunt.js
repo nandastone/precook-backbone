@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         min: {
             dist: {
                 src: ['dist/precook.js'],
-                dest: ['dist/precook.min.js', 'example/js/vendor/precook.min.js']
+                dest: 'dist/precook.min.js'
             }
         },
 
