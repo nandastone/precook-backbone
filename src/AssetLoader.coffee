@@ -51,29 +51,27 @@ AssetLoader =
         return
 
     ###
-        Actually load a group of assets. Assets for the group are assigned to a loader tpe
+        Actually load a group/s of assets. Assets for the group are assigned to a loader tpe
         and then loaded. The exact loading functionality is determined by the loader type.
 
-        @param {array} groups. List of key strings detailing groups to be loaded.
+        @param {array} groups Array of group key strings to be loaded.
     ###
-    load: (groups...) -> # load('group1', 'group2') = ['group1', 'group2']    
+    load: (groups...) ->  
         # abort loading if there's nothing to load - we don't want to block the app
         return @_finished() if not @_config?
 
         # make sure the preload group exists in the config
-        # TODO: loop and check all exist
-        
-        for group in groups            
+        for group in groups
            if not @_config.GROUPS[group]?
                throw new Error 'Invalid group passed to preloader.'
+           
            @_groups.push @_config.GROUPS[group]
         
+        # store the first group passed in as a reference for triggering completed
         @_group = groups[0]
-        @_groups = [].concat @_groups...
 
-        
-        # merge all groups into single group
-        # store all the data from config.GROUPS in @_groups
+        # merge all assets into a single array
+        @_groups = [].concat @_groups...
 
         @_addAsset asset for asset in @_groups
         @_startLoader asset for asset in @_toLoad

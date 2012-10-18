@@ -22,6 +22,7 @@ module.exports = function(grunt) {
                 dest: 'dist/precook.min.js'
             }
         },
+        
         // copy the dist files into the example script
         copy: {
             dist: {
