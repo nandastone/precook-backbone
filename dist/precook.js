@@ -46,6 +46,7 @@
 
 (function() {
   var AssetLoader, root,
+    __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
@@ -69,6 +70,7 @@
     _numToLoad: 0,
     _numLoaded: 0,
     _group: null,
+    _groups: [],
     /*
             Initialise the AssetLoader with configuration determining the assets to be loaded.
             Fires a callback (preloader:configLoaded) when this process has completed.
@@ -99,27 +101,33 @@
             Actually load a group of assets. Assets for the group are assigned to a loader tpe
             and then loaded. The exact loading functionality is determined by the loader type.
     
-            @param {string} _group String key for the group to be loaded.
+            @param {array} groups. List of key strings detailing groups to be loaded.
     */
 
-    load: function(_group) {
-      var asset, _i, _j, _len, _len1, _ref, _ref1, _results;
-      this._group = _group;
+    load: function() {
+      var asset, group, groups, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results;
+      groups = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
       if (!(this._config != null)) {
         return this._finished();
       }
-      if (!(this._config.GROUPS[this._group] != null)) {
-        throw new Error('Invalid group passed to preloader.');
+      for (_i = 0, _len = groups.length; _i < _len; _i++) {
+        group = groups[_i];
+        if (!(this._config.GROUPS[group] != null)) {
+          throw new Error('Invalid group passed to preloader.');
+        }
+        this._groups.push(this._config.GROUPS[group]);
       }
-      _ref = this._config.GROUPS[this._group];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        asset = _ref[_i];
-        this._addAsset(asset);
-      }
-      _ref1 = this._toLoad;
-      _results = [];
+      this._group = groups[0];
+      this._groups = (_ref = []).concat.apply(_ref, this._groups);
+      _ref1 = this._groups;
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         asset = _ref1[_j];
+        this._addAsset(asset);
+      }
+      _ref2 = this._toLoad;
+      _results = [];
+      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+        asset = _ref2[_k];
         _results.push(this._startLoader(asset));
       }
       return _results;
@@ -137,7 +145,8 @@
       }
       this._toLoad = [];
       this._numToLoad = this._numLoaded = 0;
-      return this._group = null;
+      this._group = null;
+      return this._groups = [];
     },
     _removeAsset: function(asset) {
       asset.off('asset:completed');

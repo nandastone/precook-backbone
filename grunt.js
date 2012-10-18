@@ -22,6 +22,14 @@ module.exports = function(grunt) {
                 dest: 'dist/precook.min.js'
             }
         },
+        // copy the dist files into the example script
+        copy: {
+            dist: {
+                files: {
+                    'example/js/vendor/': 'dist/precook.min.js'
+                }
+            }
+        },
 
         // uglify-js settings
         uglify: {
@@ -33,5 +41,9 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-coffee');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+
+    // default singular task
+    grunt.registerTask('default', 'coffee min copy');
 
 };

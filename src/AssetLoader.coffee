@@ -19,6 +19,7 @@ AssetLoader =
     _numToLoad: 0
     _numLoaded: 0
     _group: null
+    _groups: []
 
     ###
         Initialise the AssetLoader with configuration determining the assets to be loaded.
@@ -53,17 +54,28 @@ AssetLoader =
         Actually load a group of assets. Assets for the group are assigned to a loader tpe
         and then loaded. The exact loading functionality is determined by the loader type.
 
-        @param {string} _group String key for the group to be loaded.
+        @param {array} groups. List of key strings detailing groups to be loaded.
     ###
-    load: (@_group) ->
+    load: (groups...) -> # load('group1', 'group2') = ['group1', 'group2']    
         # abort loading if there's nothing to load - we don't want to block the app
         return @_finished() if not @_config?
 
         # make sure the preload group exists in the config
-        if not @_config.GROUPS[@_group]?
-            throw new Error 'Invalid group passed to preloader.'
+        # TODO: loop and check all exist
+        
+        for group in groups            
+           if not @_config.GROUPS[group]?
+               throw new Error 'Invalid group passed to preloader.'
+           @_groups.push @_config.GROUPS[group]
+        
+        @_group = groups[0]
+        @_groups = [].concat @_groups...
 
-        @_addAsset asset for asset in @_config.GROUPS[@_group]
+        
+        # merge all groups into single group
+        # store all the data from config.GROUPS in @_groups
+
+        @_addAsset asset for asset in @_groups
         @_startLoader asset for asset in @_toLoad
 
     _configFromObject: (data) ->
@@ -78,6 +90,7 @@ AssetLoader =
         @_toLoad = []
         @_numToLoad = @_numLoaded = 0
         @_group = null
+        @_groups = []
 
     _removeAsset: (asset) ->
         # disable all events on assets to remove pointers
