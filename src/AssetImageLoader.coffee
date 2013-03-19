@@ -2,12 +2,11 @@ root = exports ? this
 
 class AssetImageLoader
 
-    # mixin eventing methods (on, off, trigger)
-    _.extend @prototype, Backbone.Events
-
     _sourceFile: ''
 
     constructor: ->
+        # mixin eventing methods (on, off, trigger)
+        _.extend @, Backbone.Events
 
     setSourceFile: (@_sourceFile) ->
 

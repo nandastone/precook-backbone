@@ -2,12 +2,11 @@ root = exports ? this
 
 class AssetVideoLoader
 
-    # mixin eventing methods (on, off, trigger)
-    _.extend @prototype, Backbone.Events
-
     _sourceFile: ''
 
     constructor: ->
+        # mixin eventing methods (on, off, trigger)
+        _.extend @, Backbone.Events
 
     setSourceFile: (sourceFile) ->
         if Modernizr.video.webm

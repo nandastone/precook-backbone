@@ -1,25 +1,27 @@
 root = exports ? this
 
-AssetLoader =
+class AssetLoader
 
-    _config: null
-
-    # Define our loader types. New loaders can be added here.
+    # Define our loader types. New loaders can be added via ::newLoader()
     _loaders:
-        image: -> new PrecookImage()
-        video: -> new PrecookVideo()
+        image: -> new PrecookImage
+        video: -> new PrecookVideo
 
     # Used to match asset file extensions to a loader type.
     _types:
         image: ['png', 'jpg', 'jpeg', 'gif']
         video: ['mp4', 'webm', 'ogv']
 
-    _assets: []
-    _toLoad: []
-    _numToLoad: 0
-    _numLoaded: 0
-    _group: null
-    _groups: []
+    constructor: ->
+        @_config = null
+        @_toLoad = []
+        @_numToLoad = 0
+        @_numLoaded = 0
+        @_group = ''
+        @_groups = []
+
+        # mixin eventing methods (on, off, trigger)
+        _.extend @, Backbone.Events
 
     ###
         Initialise the AssetLoader with configuration determining the assets to be loaded.
@@ -56,17 +58,17 @@ AssetLoader =
 
         @param {array} groups Array of group key strings to be loaded.
     ###
-    load: (groups...) ->  
+    load: (groups...) ->
         # abort loading if there's nothing to load - we don't want to block the app
         return @_finished() if not @_config?
 
         # make sure the preload group exists in the config
         for group in groups
-           if not @_config.GROUPS[group]?
-               throw new Error 'Invalid group passed to preloader.'
-           
-           @_groups.push @_config.GROUPS[group]
-        
+            if not @_config.GROUPS[group]?
+                throw new Error "Invalid group (#{ group }) passed to preloader."
+
+            @_groups.push @_config.GROUPS[group]
+
         # store the first group passed in as a reference for triggering completed
         @_group = groups[0]
 
@@ -76,6 +78,17 @@ AssetLoader =
         @_addAsset asset for asset in @_groups
         @_startLoader asset for asset in @_toLoad
 
+    ###
+     * [newLoader expose a Loader to be used for a set of file extensions]
+     * @param  {[object]} config { type: 'image', loader: PrecookVideo, types: ['png', 'jpg', 'jpeg', 'gif'] }
+     * @return {}
+    ###
+    newLoader: (config) ->
+        @_loaders[config.type] = -> new config.loader
+        @_types[config.type] = config.types
+
+    # internal
+    #
     _configFromObject: (data) ->
         @_config = data
         @.trigger 'preloader:configLoaded'
@@ -104,7 +117,9 @@ AssetLoader =
 
         # create a new asset loader based on the this asset's type
         loader = @_getLoader type
-        loader.setSourceFile @_config.BASE_URL + src
+        url = src
+        url = @_config.BASE_URL + url if @_config.BASE_URL?
+        loader.setSourceFile url
 
         # track the list of assets to load
         @_toLoad.push loader
@@ -138,8 +153,5 @@ AssetLoader =
         @_resetLoader()
 
         @.trigger 'preloader:completed', currentGroup
-
-# mixin eventing methods (on, off, trigger)
-_.extend AssetLoader, Backbone.Events
 
 root.Precook = AssetLoader
